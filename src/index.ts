@@ -16,6 +16,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 db();
 
 const app = express();
+app.use(express.json());
 
 // Dev logging middleware
 if (NODE_ENV == 'development') {
