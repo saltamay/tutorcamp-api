@@ -218,8 +218,9 @@ node seeder -i
 - cors - https://github.com/expressjs/cors
 - pm2 - https://github.com/Unitech/pm2
 
-# Credits
+# References
 
 - Brad Traversy - https://github.com/bradtraversy/devcamper-api
 - Stephen Grider - https://github.com/StephenGrider/AdvancedNodeStarter
 - UI Dev Typescript - https://ui.dev/typescript/
+- Kent C. Dodds - Testing Javascript - https://testingjavascript.com/
