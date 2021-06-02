@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import Bootcamp from '../models/Bootcamp';
+import { ErrorResponse } from '../utils/ErrorResponse';
 /**
  *
  * @param req
@@ -49,18 +50,20 @@ export const getBootcamp = async (
   try {
     const bootcamp = await Bootcamp.findById(req.params.id);
 
-    if (!bootcamp) return res.status(400).json({ success: false });
+    if (!bootcamp) {
+      return next(new ErrorResponse(
+        `Bootcamp with the id of ${req.params.id} not found`, 
+        404));
+    }
 
     res.status(200).json({
       success: true,
       data: bootcamp,
     });
   } catch (err) {
-    // console.log(`Error: ${err.message}`);
-    // res.status(400).json({
-    //   succes: false,
-    // });
-    next(err);
+    next(new ErrorResponse(
+      `Bootcamp with the id of ${req.params.id} not found`, 
+      404));
   }
 };
 

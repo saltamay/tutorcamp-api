@@ -1,17 +1,18 @@
+import { ErrorResponse } from './../../utils/ErrorResponse';
 import { errorMiddleware } from './../errorMiddleware';
 
-test('responds with 500 for server error', () => {
+test('Returns custom error message and status code', () => {
   const req: any = {}
   const res: any = {
     json: jest.fn(() => res),
     status: jest.fn(() => res),
   }
   const next = jest.fn()
-  const error = new Error('Fake Error Message');
+  const error = new ErrorResponse('Fake Error Message', 500);
   
   errorMiddleware(error, req, res, next)
   expect(next).not.toHaveBeenCalled()
-  expect(res.status).toHaveBeenCalledWith(500)
+  expect(res.status).toHaveBeenCalledWith(error.statusCode)
   expect(res.status).toHaveBeenCalledTimes(1)
   expect(res.json).toHaveBeenCalledWith({
     success: false,

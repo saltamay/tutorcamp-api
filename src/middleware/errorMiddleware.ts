@@ -1,10 +1,11 @@
+import { ErrorResponse } from './../utils/ErrorResponse';
 import { Request, Response, NextFunction } from 'express';
 
-export const errorMiddleware = (err: Error, req: Request, res: Response, next: NextFunction) => {
+export const errorMiddleware = (err: ErrorResponse, req: Request, res: Response, next: NextFunction) => {
   // log error
-  console.log(`Server Error: ${err.message}`);
+  console.log(`Error: ${err.message}`);
 
-  res.status(500).json({
+  res.status(err.statusCode || 500).json({
     success: false,
     message: err.message
   });
