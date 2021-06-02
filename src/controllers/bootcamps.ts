@@ -61,9 +61,7 @@ export const getBootcamp = async (
       data: bootcamp,
     });
   } catch (err) {
-    next(new ErrorResponse(
-      `Bootcamp with the id of ${req.params.id} not found`, 
-      404));
+    next(err)
   }
 };
 
