@@ -5,6 +5,7 @@ dotenv.config();
 import express from 'express';
 import morgan from 'morgan';
 import db from './config/db';
+import { errorMiddleware } from './middleware/errorMiddleware';
 
 // Import routers
 import bootcamps from './routes/bootcamps';
@@ -24,6 +25,9 @@ if (NODE_ENV == 'development') {
 }
 // Mount routers
 app.use('/api/v1/bootcamps', bootcamps);
+
+// Error handler
+app.use(errorMiddleware);
 
 const server = app.listen(PORT, () =>
   console.log(`Server running in '${NODE_ENV}' mode on port: ${PORT}`)

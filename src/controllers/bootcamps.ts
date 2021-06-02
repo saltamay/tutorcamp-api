@@ -56,10 +56,11 @@ export const getBootcamp = async (
       data: bootcamp,
     });
   } catch (err) {
-    console.log(`Error: ${err.message}`);
-    res.status(400).json({
-      succes: false,
-    });
+    // console.log(`Error: ${err.message}`);
+    // res.status(400).json({
+    //   succes: false,
+    // });
+    next(err);
   }
 };
 
