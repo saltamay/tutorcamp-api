@@ -7,6 +7,7 @@ import colors from 'colors';
 import { bootcamps } from './src/routes/bootcamps.route.js';
 import { connectDatabase } from './src/database/index.js';
 import { isDevelopment } from './src/utils/index.js';
+import { errorHandler } from './src/middleware/errorHandler.js';
 
 const PORT = process.env.PORT || 8001;
 
@@ -17,6 +18,7 @@ export const createApp = () => {
 
   app.use(express.json());
   app.use('/api/v1/bootcamps', bootcamps);
+  app.use(errorHandler);
 
   return app;
 };
