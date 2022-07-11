@@ -21,9 +21,11 @@
   "homepage": "https://github.com/saltamay/tutorcamp-api#readme",
   "dependencies": {
     "dotenv": "^16.0.1",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "mongoose": "^6.4.4"
   },
   "devDependencies": {
+    "colors": "^1.4.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.19"
   }
