@@ -7,7 +7,7 @@ export const errorHandler = (err, req, res, next) => {
   let error = { ...err };
   error.message = err.message;
 
-  console.error(err);
+  console.error(err.stack.red);
 
   // Mongo invalid ObjectId error
   if (err.name === 'CastError') {
