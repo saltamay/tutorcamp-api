@@ -6,8 +6,13 @@ const user = process.env.DB_USERNAME;
 const password = process.env.DB_USER_PASSWORD;
 const cluster = process.env.DB_CLUSTER;
 
-const url = `mongodb+srv://${user}:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`;
-console.log(url);
+const dbName =
+  process.env.NODE_ENV === 'test'
+    ? process.env.TEST_DB_NAME
+    : process.env.DB_NAME;
+
+const url = `mongodb+srv://${user}:${password}@${cluster}.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+
 export const connectDatabase = async () => {
   const db = await mongoose.connect(url);
 

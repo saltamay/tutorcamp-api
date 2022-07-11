@@ -43,7 +43,6 @@ export const getBootcamp = async (req, res, next) => {
 export const createBootcamp = async (req, res, next) => {
   try {
     const bootcamp = await Bootcamp.create(req.body);
-
     res.status(201).json({ success: true, data: bootcamp });
   } catch (err) {
     console.log(err.message);
