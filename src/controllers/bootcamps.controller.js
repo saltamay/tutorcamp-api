@@ -8,7 +8,7 @@ import { bootcamps } from '../routes/bootcamps.route.js';
  */
 export const getBootcamps = async (req, res, next) => {
   try {
-    const bootcamps = await Bootcamp.find({}).exec();
+    const bootcamps = await Bootcamp.find({});
 
     res.status(200).json({ success: true, data: bootcamps });
   } catch (err) {
