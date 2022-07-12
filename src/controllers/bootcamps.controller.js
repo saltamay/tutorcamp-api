@@ -3,6 +3,7 @@ import { Bootcamp } from '../models/index.js';
 import { bootcamps } from '../routes/bootcamps.route.js';
 import { ErrorResponse } from '../utils/errorResponse.js';
 import { geocoder } from '../utils/geocoder.js';
+import { parseQuery } from '../utils/parseQuery.js';
 
 const EARTH_RADIUS = 6378; //km
 
@@ -12,7 +13,11 @@ const EARTH_RADIUS = 6378; //km
  * @access  Public
  */
 export const getBootcamps = asyncHandler(async (req, res, next) => {
-  const bootcamps = await Bootcamp.find({});
+  const { mainQuery, selectQuery, sortQuery } = parseQuery(req.query);
+
+  const bootcamps = await Bootcamp.find(mainQuery)
+    .select(selectQuery)
+    .sort(sortQuery);
 
   res
     .status(200)
