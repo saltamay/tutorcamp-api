@@ -6,7 +6,10 @@ import {
   createBootcamp,
   updateBootcamp,
   deleteBootcamp,
+  getBootcampsInRadius,
 } from '../controllers/bootcamps.controller.js';
+
+router.route('/radius/:zipcode/:distance').get(getBootcampsInRadius);
 
 router.route('/').get(getBootcamps).post(createBootcamp);
 
