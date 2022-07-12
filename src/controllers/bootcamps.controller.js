@@ -1,6 +1,7 @@
 import { asyncHandler } from '../middleware/asyncHandler.js';
 import { Bootcamp } from '../models/index.js';
 import { bootcamps } from '../routes/bootcamps.route.js';
+import { createPagination } from '../utils/createPagination.js';
 import { ErrorResponse } from '../utils/errorResponse.js';
 import { geocoder } from '../utils/geocoder.js';
 import { parseQuery } from '../utils/parseQuery.js';
@@ -13,15 +14,22 @@ const EARTH_RADIUS = 6378; //km
  * @access  Public
  */
 export const getBootcamps = asyncHandler(async (req, res, next) => {
-  const { mainQuery, selectQuery, sortQuery } = parseQuery(req.query);
+  const { mainQuery, selectQuery, sortQuery, limit, page } = parseQuery(
+    req.query
+  );
+  const pagination = await createPagination(Bootcamp, page, limit);
 
   const bootcamps = await Bootcamp.find(mainQuery)
+    .limit(limit)
+    .skip((page - 1) * limit)
     .select(selectQuery)
     .sort(sortQuery);
 
-  res
-    .status(200)
-    .json({ success: true, count: bootcamps.length, data: bootcamps });
+  res.status(200).json({
+    success: true,
+    pagination,
+    data: bootcamps,
+  });
 });
 
 /**
