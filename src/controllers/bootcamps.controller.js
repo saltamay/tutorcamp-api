@@ -20,6 +20,7 @@ export const getBootcamps = asyncHandler(async (req, res, next) => {
   );
 
   const bootcamps = await Bootcamp.find(mainQuery)
+    .populate('courses')
     .limit(limit)
     .skip((page - 1) * limit)
     .select(selectQuery)
@@ -98,7 +99,7 @@ export const updateBootcamp = asyncHandler(async (req, res, next) => {
  * @access  Private
  */
 export const deleteBootcamp = asyncHandler(async (req, res, next) => {
-  const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
+  const bootcamp = await Bootcamp.findById(req.params.id);
 
   if (!bootcamp) {
     return next(
@@ -109,6 +110,7 @@ export const deleteBootcamp = asyncHandler(async (req, res, next) => {
     );
   }
 
+  bootcamp.remove();
   res.status(200).json({ success: true, data: bootcamp });
 });
 

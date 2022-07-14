@@ -116,6 +116,18 @@ const BootcampSchema = new mongoose.Schema(
   }
 );
 
+BootcampSchema.pre('remove', async function (next) {
+  await this.model('Course').deleteMany({ bootcamp: this._id });
+  next();
+});
+
+BootcampSchema.virtual('courses', {
+  ref: 'Course',
+  localField: '_id',
+  foreignField: 'bootcampId',
+  justOne: false,
+});
+
 // Slugify bootcamp name
 BootcampSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
