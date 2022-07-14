@@ -1,12 +1,12 @@
-export const validateUserInput = async ({ resources }) => {
-  const resourceList = await Promise.resolve(resources);
+export const validateUserInput = async ({ resourcesList, resourceName }) => {
+  const resourceList = await Promise.resolve(resourcesList);
 
-  if (!process.argv[3] || !resourceList.includes(process.argv[3])) {
+  if (!resourceName || !resourceList.includes(resourceName)) {
     throw new Error(
       ` Please enter a valid resource name.
-       npm run db:[seed|erase] [${
-         resourceList && resourceList.length && resourceList.join('|')
-       }]`
+        npm run db:[seed|erase] [${
+          resourceList && resourceList.length && resourceList.join('|')
+        }]`
     );
   }
 };

@@ -1,8 +1,6 @@
-// TODO: Import resource dynamically
-export const getResource = async (resourceName) => {
-  const { resource: Bootcamp } = await import(
-    `../models/${resourceName}.model.js`
-  );
-  console.log(await Bootcamp);
-  return resource;
+import capitalize from 'lodash.capitalize';
+
+export const getResource = async ({ loader, resourceName }) => {
+  const resources = await Promise.resolve(loader());
+  return resources[capitalize(resourceName)];
 };

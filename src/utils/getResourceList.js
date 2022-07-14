@@ -1,4 +1,6 @@
-export const getResourceNames = ({ resourceList }) => {
+export const getResourceList = async ({ reader, dirPath }) => {
+  const resourceList = await reader(dirPath);
+
   return (
     resourceList &&
     resourceList.length &&

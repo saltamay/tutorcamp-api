@@ -1,55 +1,22 @@
 import mongoose from 'mongoose';
-import { readdir } from 'node:fs/promises';
-import { Bootcamp } from '../models/bootcamp.model.js';
-import { Course } from '../models/course.model.js';
+import { readdir, readFile } from 'node:fs/promises';
+import * as resources from '../models/index.js';
 import { eraseData } from './eraseData.js';
 import { seedData } from './seedData.js';
-import { validateUserInput } from '../utils/validateUserInput.js';
-import { getResourceNames } from '../utils/getResourceNames.js';
-import { getFileNames } from '../utils/getFileNames.js';
 import { connectDatabase } from '../database/index.js';
+import {
+  getResource,
+  getResourceData,
+  getResourceList,
+  loadRersources,
+  validateUserInput,
+} from '../utils/index.js';
 
-import bootcamps from './bootcamps.json';
-import courses from './courses.json';
-
-const RESOURCES = {
-  bootcamp: {
-    data: bootcamps,
-    resource: Bootcamp,
-  },
-  course: {
-    data: courses,
-    resource: Course,
-  },
-};
-
-const loadRersources = async () => {
-  const resourceList = await getFileNames({
-    reader: readdir,
-    dirPath: './src/models',
-  });
-
-  const resources = await getResourceNames({ resourceList });
-
-  return resources;
-};
-
-const getResource = () => {
-  const resourceName = process.argv[3];
-
-  return RESOURCES[resourceName]['resource'];
-};
-
-const getResourceData = () => {
-  const resourceName = process.argv[3];
-
-  return RESOURCES[resourceName]['data'];
-};
-
-const action = ({ resource, data }) => {
+const action = async ({ resourceName, resource, getData }) => {
   const userInput = process.argv[2];
   switch (userInput) {
     case '-s':
+      const data = await getData({ reader: readFile, resourceName });
       return seedData({ resource, data });
       break;
     case '-d':
@@ -62,11 +29,28 @@ const action = ({ resource, data }) => {
 
 const run = async () => {
   try {
-    await validateUserInput({ resources: loadRersources() });
+    const resourceName = process.argv[3];
+    await validateUserInput({
+      resourcesList: getResourceList({
+        reader: readdir,
+        dirPath: './src/models',
+      }),
+      resourceName,
+    });
+
+    const resource = await getResource({
+      loader: loadRersources,
+      resourceName,
+    });
+
     await connectDatabase();
-    await action({ resource: getResource(), data: getResourceData() });
+    await action({
+      resourceName,
+      resource,
+      getData: getResourceData,
+    });
   } catch (err) {
-    console.log(`[err]:${err.message}`.red);
+    console.log(`[err]: ${err.message}`.red);
   } finally {
     mongoose.connection.close();
   }
