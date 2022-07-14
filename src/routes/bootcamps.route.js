@@ -8,6 +8,10 @@ import {
   deleteBootcamp,
   getBootcampsInRadius,
 } from '../controllers/bootcamps.controller.js';
+import { coursesRouter } from './courses.route.js';
+
+// Resource routers
+router.use('/:bootcampId/courses', coursesRouter);
 
 router.route('/radius/:zipcode/:distance').get(getBootcampsInRadius);
 
@@ -19,4 +23,4 @@ router
   .put(updateBootcamp)
   .delete(deleteBootcamp);
 
-export { router as bootcamps };
+export { router as bootcampsRouter };

@@ -1,5 +1,5 @@
-export const createPagination = async (resource, page, limit) => {
-  const count = await resource.countDocuments();
+export const createPagination = async ({ count, page, limit }) => {
+  // const count = await resource.countDocuments();
   const startPage = (page - 1) * limit;
   const endPage = page * limit;
 

@@ -4,7 +4,8 @@ import express from 'express';
 import morgan from 'morgan';
 import colors from 'colors';
 
-import { bootcamps } from './src/routes/bootcamps.route.js';
+import { bootcampsRouter } from './src/routes/bootcamps.route.js';
+import { coursesRouter } from './src/routes/courses.route.js';
 import { connectDatabase } from './src/database/index.js';
 import { isDevelopment } from './src/utils/index.js';
 import { errorHandler } from './src/middleware/errorHandler.js';
@@ -17,7 +18,8 @@ export const createApp = () => {
   if (isDevelopment()) app.use(morgan('dev'));
 
   app.use(express.json());
-  app.use('/api/v1/bootcamps', bootcamps);
+  app.use('/api/v1/bootcamps', bootcampsRouter);
+  app.use('/api/v1/courses', coursesRouter);
   app.use(errorHandler);
 
   return app;
