@@ -71,7 +71,7 @@ export const createBootcamp = asyncHandler(async (req, res, next) => {
 });
 
 /**
- * @desc    Create a bootcamp by id
+ * @desc    Update a bootcamp by id
  * @route   PUT /api/v1/bootcamps/:id
  * @access  Private
  */
@@ -95,7 +95,7 @@ export const updateBootcamp = asyncHandler(async (req, res, next) => {
 
 /**
  * @desc    Delete a bootcamp by id
- * @route   PUT /api/v1/bootcamps/:id
+ * @route   DELETE /api/v1/bootcamps/:id
  * @access  Private
  */
 export const deleteBootcamp = asyncHandler(async (req, res, next) => {

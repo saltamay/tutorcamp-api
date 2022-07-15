@@ -1,7 +1,18 @@
 import express from 'express';
-const router = express.Router({ mergeParams: true });
-import { getCourses } from '../controllers/courses.controller.js';
+const coursesRouter = express.Router({ mergeParams: true });
+import {
+  createCourse,
+  deleteCourse,
+  getCourse,
+  getCourses,
+  updateCourse,
+} from '../controllers/courses.controller.js';
 
-router.route('/').get(getCourses);
+coursesRouter.route('/').get(getCourses).post(createCourse);
+coursesRouter
+  .route('/:id')
+  .get(getCourse)
+  .put(updateCourse)
+  .delete(deleteCourse);
 
-export { router as coursesRouter };
+export { coursesRouter };
