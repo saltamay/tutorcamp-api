@@ -15,28 +15,7 @@ const EARTH_RADIUS = 6378; //km
  * @access  Public
  */
 export const getBootcamps = asyncHandler(async (req, res, next) => {
-  const { mainQuery, selectQuery, sortQuery, limit, page } = parseQuery(
-    req.query
-  );
-
-  const bootcamps = await Bootcamp.find(mainQuery)
-    .populate('courses')
-    .limit(limit)
-    .skip((page - 1) * limit)
-    .select(selectQuery)
-    .sort(sortQuery);
-
-  const pagination = await createPagination({
-    count: bootcamps.length,
-    page,
-    limit,
-  });
-
-  res.status(200).json({
-    success: true,
-    pagination,
-    data: bootcamps,
-  });
+  res.status(200).json(res.results);
 });
 
 /**

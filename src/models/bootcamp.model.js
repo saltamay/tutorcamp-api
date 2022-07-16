@@ -161,7 +161,7 @@ BootcampSchema.pre('save', async function (next) {
     country,
   };
 
-  // this.address = undefined;
+  this.address = undefined;
   next();
 });
 

@@ -7,8 +7,13 @@ import {
   getCourses,
   updateCourse,
 } from '../controllers/courses.controller.js';
+import { filterHandler } from '../middleware/filterHandler.js';
+import { Course } from '../models/course.model.js';
 
-coursesRouter.route('/').get(getCourses).post(createCourse);
+coursesRouter
+  .route('/')
+  .get(filterHandler(Course, 'bootcamp'), getCourses)
+  .post(createCourse);
 coursesRouter
   .route('/:id')
   .get(getCourse)

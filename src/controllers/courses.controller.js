@@ -9,21 +9,7 @@ import { createPagination, ErrorResponse, parseQuery } from '../utils/index.js';
  * @access  Public
  */
 const getAllCourses = asyncHandler(async (req, res, next) => {
-  const { limit, page } = parseQuery(req.query);
-
-  const courses = await Course.find({}).populate('bootcamp');
-
-  const pagination = await createPagination({
-    count: courses.length,
-    page,
-    limit,
-  });
-
-  res.status(200).json({
-    success: true,
-    pagination,
-    data: courses,
-  });
+  res.status(200).json(res.results);
 });
 
 /**
