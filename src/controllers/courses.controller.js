@@ -135,5 +135,6 @@ export const deleteCourse = asyncHandler(async (req, res, next) => {
   }
 
   course.remove();
+
   res.status(200).json({ success: true, data: course });
 });
