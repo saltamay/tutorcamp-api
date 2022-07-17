@@ -22,8 +22,10 @@
   },
   "homepage": "https://github.com/saltamay/tutorcamp-api#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
     "lodash.capitalize": "^4.2.1",
     "mongoose": "^6.4.4",
     "node-geocoder": "^4.2.0",
