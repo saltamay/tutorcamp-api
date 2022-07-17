@@ -1,3 +1,4 @@
+export * from './convertDaysToMiliseconds.js';
 export * from './createPagination.js';
 export * from './errorResponse.js';
 export * from './geocoder.js';
@@ -5,6 +6,7 @@ export * from './getResource.js';
 export * from './getResourceData.js';
 export * from './getResourceList.js';
 export * from './isDevelopment.js';
+export * from './isProduction.js';
 export * from './loadResources.js';
 export * from './parseQuery.js';
 export * from './validateUserInput.js';

@@ -1,6 +1,24 @@
 import { asyncHandler } from '../middleware/asyncHandler.js';
 import { User } from '../models/user.model.js';
 import { ErrorResponse } from '../utils/errorResponse.js';
+import { convertDaysToMiliseconds, isProduction } from '../utils/index.js';
+
+const JWT_COOKIE_EXPIRE = process.env.JWT_COOKIE_EXPIRE || 30;
+
+const JWT_COOKIE_OPTIONS = {
+  expires: new Date(Date.now() + convertDaysToMiliseconds(JWT_COOKIE_EXPIRE)),
+  httpOnly: true,
+  secure: isProduction(),
+};
+
+const sendResponse = (res) => {
+  const token = res.user.getSignedJwtToken();
+
+  res
+    .status(200)
+    .cookie('token', token, { ...JWT_COOKIE_OPTIONS })
+    .json({ success: true, token });
+};
 
 /**
  * @desc    Register user
@@ -10,16 +28,14 @@ import { ErrorResponse } from '../utils/errorResponse.js';
 export const register = asyncHandler(async (req, res, next) => {
   const { name, email, password, role } = req.body;
 
-  const user = await User.create({
+  res.user = await User.create({
     name,
     email,
     password,
     role,
   });
 
-  const token = user.getSignedJwtToken();
-
-  res.status(200).json({ success: true, token });
+  sendResponse(res);
 });
 
 /**
@@ -44,7 +60,7 @@ export const login = asyncHandler(async (req, res, next) => {
   if (!isPasswordValid)
     return next(new ErrorResponse('Invalid credentials', 401));
 
-  const token = user.getSignedJwtToken();
+  res.user = user;
 
-  res.status(200).json({ success: true, token });
+  sendResponse(res);
 });
