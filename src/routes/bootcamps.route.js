@@ -1,5 +1,5 @@
 import express from 'express';
-const router = express.Router();
+const bootcampsRouter = express.Router();
 import {
   getBootcamps,
   getBootcamp,
@@ -9,22 +9,23 @@ import {
   getBootcampsInRadius,
 } from '../controllers/bootcamps.controller.js';
 import { filterHandler } from '../middleware/filterHandler.js';
+import { authProtect } from '../middleware/authProtect.js';
 import { Bootcamp } from '../models/bootcamp.model.js';
 import { coursesRouter } from './courses.route.js';
 
 // Resource routers
-router.use('/:bootcampId/courses', coursesRouter);
+bootcampsRouter.use('/:bootcampId/courses', coursesRouter);
 
-router.route('/radius/:zipcode/:distance').get(getBootcampsInRadius);
-router
+bootcampsRouter.route('/radius/:zipcode/:distance').get(getBootcampsInRadius);
+bootcampsRouter
   .route('/')
   .get(filterHandler(Bootcamp, 'courses'), getBootcamps)
-  .post(createBootcamp);
+  .post(authProtect, createBootcamp);
 
-router
+bootcampsRouter
   .route('/:id')
   .get(getBootcamp)
-  .put(updateBootcamp)
-  .delete(deleteBootcamp);
+  .put(authProtect, updateBootcamp)
+  .delete(authProtect, deleteBootcamp);
 
-export { router as bootcampsRouter };
+export { bootcampsRouter };

@@ -11,15 +11,6 @@ const JWT_COOKIE_OPTIONS = {
   secure: isProduction(),
 };
 
-const sendResponse = (res) => {
-  const token = res.user.getSignedJwtToken();
-
-  res
-    .status(200)
-    .cookie('token', token, { ...JWT_COOKIE_OPTIONS })
-    .json({ success: true, token });
-};
-
 /**
  * @desc    Register user
  * @route   GET /api/v1/auth/register
@@ -28,14 +19,19 @@ const sendResponse = (res) => {
 export const register = asyncHandler(async (req, res, next) => {
   const { name, email, password, role } = req.body;
 
-  res.user = await User.create({
+  user = await User.create({
     name,
     email,
     password,
     role,
   });
 
-  sendResponse(res);
+  const token = user.getSignedJwtToken();
+
+  res
+    .status(200)
+    .cookie('token', token, { ...JWT_COOKIE_OPTIONS })
+    .json({ success: true, token });
 });
 
 /**
@@ -60,7 +56,21 @@ export const login = asyncHandler(async (req, res, next) => {
   if (!isPasswordValid)
     return next(new ErrorResponse('Invalid credentials', 401));
 
-  res.user = user;
+  const token = user.getSignedJwtToken();
 
-  sendResponse(res);
+  res
+    .status(200)
+    .cookie('token', token, { ...JWT_COOKIE_OPTIONS })
+    .json({ success: true, token });
+});
+
+/**
+ * @desc    Get current logged in user
+ * @route   GET /api/v1/auth/user
+ * @access  Private
+ */
+export const getLoggedInUser = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  res.status(200).json({ success: true, data: user });
 });
