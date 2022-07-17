@@ -10,6 +10,7 @@ import {
 } from '../controllers/bootcamps.controller.js';
 import { filterHandler } from '../middleware/filterHandler.js';
 import { authProtect } from '../middleware/authProtect.js';
+import { roleHandler } from '../middleware/roleHandler.js';
 import { Bootcamp } from '../models/bootcamp.model.js';
 import { coursesRouter } from './courses.route.js';
 
@@ -20,12 +21,12 @@ bootcampsRouter.route('/radius/:zipcode/:distance').get(getBootcampsInRadius);
 bootcampsRouter
   .route('/')
   .get(filterHandler(Bootcamp, 'courses'), getBootcamps)
-  .post(authProtect, createBootcamp);
+  .post(authProtect, roleHandler('publisher', 'admin'), createBootcamp);
 
 bootcampsRouter
   .route('/:id')
   .get(getBootcamp)
-  .put(authProtect, updateBootcamp)
-  .delete(authProtect, deleteBootcamp);
+  .put(authProtect, roleHandler('publisher', 'admin'), updateBootcamp)
+  .delete(authProtect, roleHandler('publisher', 'admin'), deleteBootcamp);
 
 export { bootcampsRouter };
