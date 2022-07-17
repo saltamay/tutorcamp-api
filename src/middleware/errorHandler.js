@@ -16,13 +16,14 @@ export const errorHandler = (err, req, res, next) => {
 
   // Mongo duplicate key error
   if (err.name === 'MongoServerError' && err.code === 11000) {
+    const [name, value] = err.keyValue && Object.entries(err.keyValue)?.[0];
     error = new ErrorResponse(`Validation Error`, 400);
 
     errors = [
       {
-        message: 'Bootcamp already exist',
-        path: 'name',
-        value: err.keyValue.name,
+        message: `${name}: ${value} already exist`,
+        path: name,
+        value,
       },
     ];
   }
