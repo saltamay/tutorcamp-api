@@ -57,7 +57,7 @@ CourseSchema.statics.getAverageCost = async function (bootcampId) {
 
   const averageCost = obj && obj[0] && obj[0]['averageCost'];
 
-  return averageCost ? Math.ceil(obj && obj[0] && obj[0]['averageCost']) : 0;
+  return averageCost ? Math.ceil(averageCost) : 0;
 };
 
 CourseSchema.post('save', async function () {
