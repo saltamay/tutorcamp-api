@@ -13,9 +13,11 @@ import { authProtect } from '../middleware/authProtect.js';
 import { roleHandler } from '../middleware/roleHandler.js';
 import { Bootcamp } from '../models/bootcamp.model.js';
 import { coursesRouter } from './courses.route.js';
+import { reviewsRouter } from './reviews.route.js';
 
 // Resource routers
 bootcampsRouter.use('/:bootcampId/courses', coursesRouter);
+bootcampsRouter.use('/:bootcampId/reviews', reviewsRouter);
 
 bootcampsRouter.route('/radius/:zipcode/:distance').get(getBootcampsInRadius);
 bootcampsRouter

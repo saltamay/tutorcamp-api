@@ -10,6 +10,7 @@ import { connectDatabase } from './src/database/index.js';
 import { isDevelopment } from './src/utils/index.js';
 import { errorHandler } from './src/middleware/errorHandler.js';
 import { authRouter } from './src/routes/auth.route.js';
+import { reviewsRouter } from './src/routes/reviews.route.js';
 
 const PORT = process.env.PORT || 8001;
 
@@ -22,6 +23,7 @@ export const createApp = () => {
   app.use(cookieParser());
   app.use('/api/v1/bootcamps', bootcampsRouter);
   app.use('/api/v1/courses', coursesRouter);
+  app.use('/api/v1/reviews', reviewsRouter);
   app.use('/api/v1/auth', authRouter);
   app.use(errorHandler);
 
