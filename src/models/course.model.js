@@ -74,7 +74,7 @@ CourseSchema.post('save', async function () {
 
 CourseSchema.post('remove', async function () {
   const averageCost = await this.constructor.getAverageCost(this.bootcamp);
-  console.log(averageCost);
+
   try {
     await this.model('Bootcamp').findByIdAndUpdate(this.bootcamp, {
       averageCost,

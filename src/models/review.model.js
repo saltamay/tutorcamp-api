@@ -67,4 +67,16 @@ ReviewSchema.post('save', async function () {
   }
 });
 
+ReviewSchema.post('remove', async function () {
+  const averageRating = await this.constructor.getAverageRating(this.bootcamp);
+
+  try {
+    await this.model('Bootcamp').findByIdAndUpdate(this.bootcamp, {
+      averageRating,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 export const Review = new mongoose.model('Review', ReviewSchema);
